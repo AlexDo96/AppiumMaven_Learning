@@ -29,8 +29,20 @@ public class LoginTest {
             BottomNavigation bottomNavigation = loginPage.bottomNavigation();
             bottomNavigation.clickOnLoginLbl();
 
+            // Switch to Sign Up tab and register an account
+            loginPage
+                    .switchToSignUpTab()
+                    .registerUsername(userEmail)
+                    .registerPassword(userPassword)
+                    .clickSignUp();
+
+            System.out.println("Sign up result: " + loginPage.signUpDialog().dialogMessageTitle());
+            loginPage.signUpDialog().clickOK();
+
             // Fill Login form
             loginPage
+                    .switchToLoginTab()
+                    .clearLoginFields()
                     .inputUsername(userEmail)
                     .inputPassword(userPassword)
                     .clickLogin();

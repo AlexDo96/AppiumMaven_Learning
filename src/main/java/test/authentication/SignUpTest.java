@@ -6,11 +6,12 @@ import io.appium.java_client.android.AndroidDriver;
 import models.components.global.BottomNavigation;
 import models.pages.LoginPage;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class LoginTest {
+public class SignUpTest {
     private SoftAssert softAssert;
 
     @BeforeClass
@@ -24,7 +25,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginWithCorrectCreds() {
+    public void SignUp() {
         DriverFactory.startAppiumServer();
 
         int length = 8;
@@ -45,24 +46,19 @@ public class LoginTest {
             BottomNavigation bottomNavigation = loginPage.bottomNavigation();
             bottomNavigation.clickOnLoginLbl();
 
-            // Fill Login form
+            // Switch to Sign Up tab and register an account
             loginPage
-                    .clearLoginFields()
-                    .inputUsername(userEmail)
-                    .inputPassword(userPassword)
-                    .clickLogin();
+                    .switchToSignUpTab()
+                    .registerUsername(userEmail)
+                    .registerPassword(userPassword)
+                    .clickSignUp();
 
             // Verification
-            String expectedLoginDescription = "When the device has Touch/FaceID (iOS) or FingerPrint enabled a biometrics button will be shown to use and test the login.";
-            String expectedLoginDialogMessage = "Success";
-            String actualLoginDescription = loginPage.getLoginDescription();
-            String actualLoginDialogMessage = loginPage.loginDialog().dialogMessageTitle();
-            boolean isMessageCorrect = actualLoginDialogMessage.equals(expectedLoginDialogMessage);
-            String customErrMsg = "[ERR] Login message title incorrect !!";
+            String expectedSignUpDialogMessage = "You successfully signed up!";
+            String actualSignUpDialogMessage = loginPage.signUpDialog().dialogMessageTitle();
+            softAssert.assertEquals(actualSignUpDialogMessage, expectedSignUpDialogMessage, "[ERR] Sign up message title incorrect !!");
 
-            softAssert.assertTrue(isMessageCorrect, customErrMsg); // Using assertTrue
-            softAssert.assertEquals(actualLoginDescription, expectedLoginDescription, "[ERR] Login description incorrect !!");
-            softAssert.assertEquals(actualLoginDialogMessage, expectedLoginDialogMessage, "[ERR] Login message title incorrect !!");
+            loginPage.signUpDialog().clickOK();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

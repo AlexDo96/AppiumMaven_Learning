@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Regression">
+    <test name="signup">
+        <classes>
+            <class name="test.authentication.SignUpTest"/>
+        </classes>
+    </test>
+
+    <test name="authentication">
+        <classes>
+            <class name="test.authentication.LoginTest"/>
+        </classes>
+    </test>
+</suite>

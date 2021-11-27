@@ -1,9 +1,0 @@
-driver\DriverFactory.class
-models\components\authentication\SignUpDialog.class
-test\authentication\LoginTest.class
-caps\MobileCapabilityTypeEx.class
-models\components\global\BottomNavigation.class
-flags\AndroidServerFlagEx.class
-models\components\authentication\LoginDialog.class
-test\authentication\SignUpTest.class
-models\pages\LoginPage.class

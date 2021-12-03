@@ -6,9 +6,13 @@ import io.appium.java_client.android.AndroidDriver;
 import models.components.global.BottomNavigation;
 import models.pages.LoginPage;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import test_data.LoginCreds;
+import test_data.authentication.DataObjectBuilder;
 
 public class LoginTest {
     private SoftAssert softAssert;
@@ -23,8 +27,8 @@ public class LoginTest {
         softAssert.assertAll();
     }
 
-    @Test
-    public void loginWithCorrectCreds() {
+    @Test(dataProvider = "loginCredsData")
+    public void loginWithCorrectCreds(LoginCreds loginCreds) {
         DriverFactory.startAppiumServer();
 
         int length = 8;
@@ -48,8 +52,8 @@ public class LoginTest {
             // Fill Login form
             loginPage
                     .clearLoginFields()
-                    .inputUsername(userEmail)
-                    .inputPassword(userPassword)
+                    .inputUsername(loginCreds.getUsername())
+                    .inputPassword(loginCreds.getPassword())
                     .clickLogin();
 
             // Verification
@@ -68,5 +72,11 @@ public class LoginTest {
         } finally {
             DriverFactory.stopAppiumServer();
         }
+    }
+
+    @DataProvider
+    public LoginCreds[] loginCredsData() {
+        String jsonLocationPath = "/src/main/resources/test-data/loginCreds.json";
+        return DataObjectBuilder.buildDataObject(jsonLocationPath, LoginCreds[].class);
     }
 }

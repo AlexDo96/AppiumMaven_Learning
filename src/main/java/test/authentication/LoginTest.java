@@ -5,7 +5,6 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import models.components.global.BottomNavigation;
 import models.pages.LoginPage;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -30,15 +29,6 @@ public class LoginTest {
     @Test(dataProvider = "loginCredsData")
     public void loginWithCorrectCreds(LoginCreds loginCreds) {
         DriverFactory.startAppiumServer();
-
-        int length = 8;
-        boolean useLetters = true;
-        boolean useNumbersForEmail = false;
-        boolean useNumbersForPassword = true;
-        String generatedStringEmail = RandomStringUtils.random(length, useLetters, useNumbersForEmail);
-        String generatedStringPassword = RandomStringUtils.random(length, useLetters, useNumbersForPassword);
-        String userEmail = generatedStringEmail + "@gmail.com";
-        String userPassword = generatedStringPassword;
 
         try {
             AndroidDriver<MobileElement> androidDriver = DriverFactory.getAndroidDriver();
@@ -76,7 +66,7 @@ public class LoginTest {
 
     @DataProvider
     public LoginCreds[] loginCredsData() {
-        String jsonLocationPath = "/src/main/resources/test-data/loginCreds.json";
+        String jsonLocationPath = "/src/main/resources/test-data/authentication/loginValidCreds.json";
         return DataObjectBuilder.buildDataObject(jsonLocationPath, LoginCreds[].class);
     }
 }

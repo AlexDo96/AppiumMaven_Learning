@@ -3,6 +3,7 @@ package models.pages;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.qameta.allure.Step;
 import models.components.authentication.LoginDialog;
 import models.components.authentication.SignUpDialog;
 import models.components.global.BottomNavigation;
@@ -59,22 +60,26 @@ public class LoginPage {
         return this;
     }
 
+    @Step("Clear out login fields")
     public LoginPage clearLoginFields() {
         appiumDriver.findElement(usernameSel).clear();
         appiumDriver.findElement(passwordSel).clear();
         return this;
     }
 
+    @Step("Type username as {username}")
     public LoginPage inputUsername(String username) {
         appiumDriver.findElement(usernameSel).sendKeys(username);
         return this;
     }
 
+    @Step("Type password as {password}")
     public LoginPage inputPassword(String password) {
         appiumDriver.findElement(passwordSel).sendKeys(password);
         return this;
     }
 
+    @Step("Click login button")
     public LoginPage clickLogin() {
         appiumDriver.findElement(loginBtnSel).click();
         return this;

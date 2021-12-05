@@ -3,6 +3,7 @@ package models.components.global;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class BottomNavigation {
@@ -29,6 +30,7 @@ public class BottomNavigation {
     }
 
     // Main interaction method
+    @Step("Click on Login label")
     public void clickOnLoginLbl() {
         appiumDriver.findElement(loginLblSel).click();
     }

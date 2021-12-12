@@ -7,9 +7,7 @@ import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.InputStream;
@@ -24,12 +22,15 @@ public class BaseTest {
     // LocalThread | isolate appium threads
     private final static List<DriverFactory_Ex> driverThreadPool = Collections.synchronizedList(new ArrayList<>());
     private static ThreadLocal<DriverFactory_Ex> driverThread;
+    private String udid;
+    private String port;
+    private String systemPort;
 
-
+    /*
     // 2. ThreadLocal.withInitial(Supplier<? extends S> supplier)
     // Supplier is Functional Interface => Using Lambda expression to return driverThread instance
     @BeforeSuite(alwaysRun = true)
-    public static void beforeSuite() {
+    public void beforeSuite() {
         driverThread = ThreadLocal.withInitial(() -> {
             DriverFactory_Ex driverThread = new DriverFactory_Ex();
             driverThreadPool.add(driverThread);
@@ -38,7 +39,7 @@ public class BaseTest {
     }
 
     @AfterSuite(alwaysRun = true)
-    public static void afterSuite() {
+    public void afterSuite() {
         for (DriverFactory_Ex webDriverThread : driverThreadPool) {
             webDriverThread.quitAppiumSession();
         }
@@ -47,6 +48,30 @@ public class BaseTest {
     public static AppiumDriver<MobileElement> getDriver() {
         return driverThread.get().getAppiumDriver();
     }
+    */
+
+    @BeforeTest(alwaysRun = true)
+    @Parameters({"udid", "port", "systemPort"})
+    public void beforeTest(String udid, String port, String systemPort) {
+        System.out.println(udid + "|" + port + "|" + systemPort);
+        this.udid = udid;
+        this.port = port;
+        this.systemPort = systemPort;
+        driverThread = ThreadLocal.withInitial(() -> {
+            DriverFactory_Ex driverThread = new DriverFactory_Ex();
+            driverThreadPool.add(driverThread);
+            return driverThread;
+        });
+    }
+
+    @AfterTest(alwaysRun = true)
+    public void afterTest() {
+        driverThread.get().quitAppiumSession();
+    }
+
+    public AppiumDriver<MobileElement> getDriver() {
+        return driverThread.get().getAppiumDriver(udid, port, systemPort);
+    }
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod(ITestResult result) {
@@ -54,7 +79,7 @@ public class BaseTest {
             // 1. Get the test Method name
             String testMethodName = result.getName();
 
-            // 2. Declare the file location
+            // 2. Declare the file location & Declare the file name
             Calendar calendar = new GregorianCalendar();
             int y = calendar.get(Calendar.YEAR);
             int m = calendar.get(Calendar.MONTH);
@@ -65,9 +90,7 @@ public class BaseTest {
             String dateTaken = y + "-" + (m + 1) + "-" + d + "-" + hr + "-" + min + "-" + sec;
             String fileLocation = System.getProperty("user.dir") + "/screenshot/" + testMethodName + "_" + dateTaken + ".png";
 
-            // 3. Declare the file name
-
-            // 4. Save the screenshot to the system
+            // 3. Save the screenshot to the system
             File screenShot = driverThread.get().getAppiumDriver().getScreenshotAs(OutputType.FILE);
 
             try {

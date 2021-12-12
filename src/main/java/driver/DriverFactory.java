@@ -43,7 +43,7 @@ public class DriverFactory {
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.PLATFORM_NAME, "Android");
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.AUTOMATION_NAME, "uiautomator2");
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.UDID, "emulator-5554");
-        desiredCapabilities.setCapability("avd", "android_28"); // Automatically launch android virtual device - "android_28": avd name
+        // desiredCapabilities.setCapability("avd", "android_27"); // Automatically launch android virtual device - "android_27": avd name
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.APP_PACKAGE, "com.wdiodemoapp");
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.NEW_COMMAND_TIMEOUT, 120);

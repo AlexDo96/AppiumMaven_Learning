@@ -6,7 +6,7 @@
         <parameter name="port" value="7000"></parameter>
         <parameter name="systemPort" value="8300"></parameter>
         <classes>
-            <class name="test.authentication.LoginTest"/>
+            <class name="test.authentication.LoginTest_TestFlow"/>
         </classes>
     </test>
     <test name="login | emulator-5556">
@@ -14,7 +14,7 @@
         <parameter name="port" value="8000"></parameter>
         <parameter name="systemPort" value="8301"></parameter>
         <classes>
-            <class name="test.authentication.LoginTest"/>
+            <class name="test.authentication.LoginTest_TestFlow"/>
         </classes>
     </test>
 </suite>

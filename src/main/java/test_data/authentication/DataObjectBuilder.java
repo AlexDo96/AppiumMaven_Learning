@@ -1,7 +1,6 @@
 package test_data.authentication;
 
 import com.google.gson.Gson;
-import test_data.LoginCreds;
 
 import java.io.Reader;
 import java.nio.file.Files;

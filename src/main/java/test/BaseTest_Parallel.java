@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class BaseTest {
+public class BaseTest_Parallel {
     // Thread-safe
     // 1. synchronizedList
     // LocalThread | isolate appium threads
@@ -28,30 +28,6 @@ public class BaseTest {
     private String udid;
     private String port;
     private String systemPort;
-
-    /*
-    // 2. ThreadLocal.withInitial(Supplier<? extends S> supplier)
-    // Supplier is Functional Interface => Using Lambda expression to return driverThread instance
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() {
-        driverThread = ThreadLocal.withInitial(() -> {
-            DriverFactory_Ex driverThread = new DriverFactory_Ex();
-            driverThreadPool.add(driverThread);
-            return driverThread;
-        });
-    }
-
-    @AfterSuite(alwaysRun = true)
-    public void afterSuite() {
-        for (DriverFactory_Ex webDriverThread : driverThreadPool) {
-            webDriverThread.quitAppiumSession();
-        }
-    }
-
-    public static AppiumDriver<MobileElement> getDriver() {
-        return driverThread.get().getAppiumDriver();
-    }
-    */
 
     @BeforeTest(alwaysRun = true)
     @Parameters({"udid", "port", "systemPort"})

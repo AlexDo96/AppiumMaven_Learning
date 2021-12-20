@@ -1,4 +1,4 @@
-package test_data;
+package test_data.authentication;
 
 public class LoginCreds {
     private String username;
@@ -23,5 +23,13 @@ public class LoginCreds {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginCreds{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

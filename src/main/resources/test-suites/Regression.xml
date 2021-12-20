@@ -3,7 +3,7 @@
 <suite name="Regression">
     <test name="signup">
         <classes>
-            <class name="test.authentication.SignUpTest"/>
+            <class name="test.authentication.SignUpTest_TestParallelFlow"/>
         </classes>
     </test>
 

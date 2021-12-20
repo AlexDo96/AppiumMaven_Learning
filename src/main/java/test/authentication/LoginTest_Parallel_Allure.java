@@ -2,16 +2,20 @@ package test.authentication;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import models.components.global.BottomNavigation;
+import io.qameta.allure.Description;
+import io.qameta.allure.TmsLink;
+import models.components.global.BottomNavComponent;
 import models.pages.LoginPage;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import test.BaseTest;
+import test.BaseTest_Parallel;
+import test_data.DataObjectBuilder;
+import test_data.authentication.LoginCreds;
 
-public class LoginTest_Ex extends BaseTest {
+public class LoginTest_Parallel_Allure extends BaseTest_Parallel {
     private SoftAssert softAssert;
 
     @BeforeClass
@@ -24,33 +28,25 @@ public class LoginTest_Ex extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
-    public void loginWithCorrectCreds() {
+    @TmsLink("TS_1234")
+    @Description("Test login with data driven...")
+    @Test(dataProvider = "loginCredsData", description = "Login Test")
+    public void loginWithCorrectCreds(LoginCreds loginCreds) {
         // Init driver
         AppiumDriver<MobileElement> appiumDriver = getDriver();
-
-        // Init authentication
-        int length = 8;
-        boolean useLetters = true;
-        boolean useNumbersForEmail = false;
-        boolean useNumbersForPassword = true;
-        String generatedStringEmail = RandomStringUtils.random(length, useLetters, useNumbersForEmail);
-        String generatedStringPassword = RandomStringUtils.random(length, useLetters, useNumbersForPassword);
-        String userEmail = generatedStringEmail + "@gmail.com";
-        String userPassword = generatedStringPassword;
 
         // Login Page
         LoginPage loginPage = new LoginPage(appiumDriver);
 
         // Click Login feature
-        BottomNavigation bottomNavigation = loginPage.bottomNavigation();
-        bottomNavigation.clickOnLoginLbl();
+        BottomNavComponent bottomNavComponent = loginPage.bottomNavigation();
+        bottomNavComponent.clickOnLoginLbl();
 
         // Fill Login form
         loginPage
                 .clearLoginFields()
-                .inputUsername(userEmail)
-                .inputPassword(userPassword)
+                .inputUsername(loginCreds.getUsername())
+                .inputPassword(loginCreds.getPassword())
                 .clickLogin();
 
         // Verification
@@ -64,5 +60,14 @@ public class LoginTest_Ex extends BaseTest {
         softAssert.assertTrue(isMessageCorrect, customErrMsg); // Using assertTrue
         softAssert.assertEquals(actualLoginDescription, expectedLoginDescription, "[ERR] Login description incorrect !!");
         softAssert.assertEquals(actualLoginDialogMessage, expectedLoginDialogMessage, "[ERR] Login message title incorrect !!");
+
+        // Close Login dialog
+        loginPage.loginDialog().clickOK();
+    }
+
+    @DataProvider
+    public LoginCreds[] loginCredsData() {
+        String jsonLocationPath = "/src/main/resources/test-data/authentication/loginValidCreds.json";
+        return DataObjectBuilder.buildDataObject(jsonLocationPath, LoginCreds[].class);
     }
 }

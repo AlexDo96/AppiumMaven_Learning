@@ -3,15 +3,15 @@ package test.authentication;
 import driver.DriverFactory;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import models.components.global.BottomNavigation;
+import models.components.global.BottomNavComponent;
 import models.pages.LoginPage;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import test_data.LoginCreds;
-import test_data.authentication.DataObjectBuilder;
+import test_data.DataObjectBuilder;
+import test_data.authentication.LoginCreds;
 
 public class LoginTest {
     private SoftAssert softAssert;
@@ -36,8 +36,8 @@ public class LoginTest {
             LoginPage loginPage = new LoginPage(androidDriver);
 
             // Click Login feature
-            BottomNavigation bottomNavigation = loginPage.bottomNavigation();
-            bottomNavigation.clickOnLoginLbl();
+            BottomNavComponent bottomNavComponent = loginPage.bottomNavigation();
+            bottomNavComponent.clickOnLoginLbl();
 
             // Fill Login form
             loginPage

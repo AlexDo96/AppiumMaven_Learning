@@ -1,4 +1,4 @@
-package test_data.authentication;
+package test_data;
 
 import com.google.gson.Gson;
 

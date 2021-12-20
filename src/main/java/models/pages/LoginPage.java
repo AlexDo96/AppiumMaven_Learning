@@ -4,53 +4,73 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.qameta.allure.Step;
-import models.components.authentication.LoginDialog;
-import models.components.authentication.SignUpDialog;
-import models.components.global.BottomNavigation;
+import models.components.authentication.CredsFormComponent;
+import models.components.authentication.LoginDialogComponent;
+import models.components.authentication.SignUpDialogComponent;
+import models.components.authentication.SignUpFormComponent;
+import models.components.global.BottomNavComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class LoginPage {
+public class LoginPage extends GeneralPage{
     private final AppiumDriver<MobileElement> appiumDriver;
-    private static final By usernameSel = MobileBy.xpath("//android.widget.EditText[@content-desc='input-email']");
-    private static final By passwordSel = MobileBy.xpath("//android.widget.EditText[@content-desc='input-password']");
-    private static final By loginBtnSel = MobileBy.AccessibilityId("button-LOGIN");
+    private CredsFormComponent credsFormComponent;
+    private SignUpFormComponent signUpFormComponent;
+
     private static final By loginDescSel = MobileBy.xpath("//*[contains(@text, 'When the device')]");
     private static final By signUpTabSel = MobileBy.AccessibilityId("button-sign-up-container");
     private static final By loginTabSel = MobileBy.AccessibilityId("button-login-container");
-    private static final By registerUsernameSel = MobileBy.xpath("//android.widget.EditText[@content-desc='input-email']");
-    private static final By registerPasswordSel = MobileBy.xpath("//android.widget.EditText[@content-desc='input-password']");
-    private static final By registerRepeatPasswordSel = MobileBy.xpath("//android.widget.EditText[@content-desc='input-repeat-password']");
-    private static final By signUpBtnSel = MobileBy.AccessibilityId("button-SIGN UP");
-    private BottomNavigation bottomNavigation; // Embedded Bottom Navigation into Login Page
-    private LoginDialog loginDialog; // Embedded Login Dialog into Login Page
-    private SignUpDialog signUpDialog; // Embedded Sign Up Dialog into Login Page
+    private static final By missingEmailDescSel = MobileBy.xpath("//android.widget.ScrollView[@content-desc=\"Login-screen\"]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.TextView[1]");
+    private static final By missingPasswordDescSel = MobileBy.xpath("//android.widget.ScrollView[@content-desc=\"Login-screen\"]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[*]/android.widget.TextView[2]");
 
     public LoginPage(AppiumDriver<MobileElement> appiumDriver) {
+        super(appiumDriver);
         this.appiumDriver = appiumDriver;
+        credsFormComponent = new CredsFormComponent(appiumDriver);
+    }
+
+    @Step("Type username as {username}")
+    public LoginPage inputUsername(String username) {
+        credsFormComponent.inputUsername(username);
+        return this;
+    }
+
+    @Step("Type password as {password}")
+    public LoginPage inputPassword(String password) {
+        credsFormComponent.inputPassword(password);
+        return this;
+    }
+
+    @Step("Click login button")
+    public LoginPage clickLogin() {
+        credsFormComponent.clickLoginBtn();
+        return this;
     }
 
     public LoginPage switchToSignUpTab() {
         appiumDriver.findElement(signUpTabSel).click();
+        signUpFormComponent = new SignUpFormComponent(appiumDriver);
         return this;
     }
 
-    public LoginPage registerUsername(String username) {
-        WebDriverWait wait = new WebDriverWait(appiumDriver, 10);
-        wait.until(ExpectedConditions.presenceOfElementLocated(registerUsernameSel)).sendKeys(username);
+    public LoginPage signUpInputUsername(String username) {
+        signUpFormComponent.inputUsername(username);
         return this;
     }
 
-    public LoginPage registerPassword(String password) {
-        WebDriverWait wait = new WebDriverWait(appiumDriver, 10);
-        wait.until(ExpectedConditions.presenceOfElementLocated(registerPasswordSel)).sendKeys(password);
-        wait.until(ExpectedConditions.presenceOfElementLocated(registerRepeatPasswordSel)).sendKeys(password);
+    public LoginPage signUpInputPassword(String password) {
+        signUpFormComponent.inputPassword(password);
+        return this;
+    }
+
+    public LoginPage signUpRetypePassword(String password) {
+        signUpFormComponent.retypePassword(password);
         return this;
     }
 
     public LoginPage clickSignUp() {
-        appiumDriver.findElement(signUpBtnSel).click();
+        signUpFormComponent.clickSignUpBtn();
         return this;
     }
 
@@ -62,26 +82,8 @@ public class LoginPage {
 
     @Step("Clear out login fields")
     public LoginPage clearLoginFields() {
-        appiumDriver.findElement(usernameSel).clear();
-        appiumDriver.findElement(passwordSel).clear();
-        return this;
-    }
-
-    @Step("Type username as {username}")
-    public LoginPage inputUsername(String username) {
-        appiumDriver.findElement(usernameSel).sendKeys(username);
-        return this;
-    }
-
-    @Step("Type password as {password}")
-    public LoginPage inputPassword(String password) {
-        appiumDriver.findElement(passwordSel).sendKeys(password);
-        return this;
-    }
-
-    @Step("Click login button")
-    public LoginPage clickLogin() {
-        appiumDriver.findElement(loginBtnSel).click();
+        credsFormComponent.clearUsernameField();
+        credsFormComponent.clearPasswordField();
         return this;
     }
 
@@ -89,15 +91,31 @@ public class LoginPage {
         return appiumDriver.findElement(loginDescSel).getText();
     }
 
-    public BottomNavigation bottomNavigation() {
-        return new BottomNavigation(appiumDriver);
+    public String getMissingEmailDescription() {
+        return appiumDriver.findElement(missingEmailDescSel).getText();
     }
 
-    public LoginDialog loginDialog() {
-        return new LoginDialog(appiumDriver);
+    public String getMissingPasswordDescription() {
+        return appiumDriver.findElement(missingPasswordDescSel).getText();
     }
 
-    public SignUpDialog signUpDialog() {
-        return new SignUpDialog(appiumDriver);
+    public boolean getMissingEmailDescriptionDisplayed() {
+        return appiumDriver.findElement(missingEmailDescSel).isDisplayed();
+    }
+
+    public boolean getMissingPasswordDescriptionDisplayed() {
+        return appiumDriver.findElement(missingPasswordDescSel).isDisplayed();
+    }
+
+    public BottomNavComponent bottomNavigation() {
+        return new BottomNavComponent(appiumDriver);
+    }
+
+    public LoginDialogComponent loginDialog() {
+        return new LoginDialogComponent(appiumDriver);
+    }
+
+    public SignUpDialogComponent signUpDialog() {
+        return new SignUpDialogComponent(appiumDriver);
     }
 }

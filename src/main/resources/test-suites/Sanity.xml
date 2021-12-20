@@ -3,7 +3,7 @@
 <suite name="Sanity">
     <test name="login">
         <classes>
-            <class name="test.authentication.LoginTest_TestFlow"/>
+            <class name="test.authentication.LoginTest_TestParallelFlow"/>
         </classes>
     </test>
 </suite>

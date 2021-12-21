@@ -41,7 +41,6 @@ public class DriverFactory_Ex {
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.PLATFORM_NAME, "Android");
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.AUTOMATION_NAME, "uiautomator2");
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.UDID, "emulator-5554");
-        // desiredCapabilities.setCapability("avd", "android_27"); // Automatically launch android virtual device - "android_27": avd name
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.APP_PACKAGE, "com.wdiodemoapp");
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
         desiredCapabilities.setCapability(MobileCapabilityTypeEx.NEW_COMMAND_TIMEOUT, 120);
@@ -65,8 +64,8 @@ public class DriverFactory_Ex {
 
         String localAppium = System.getenv("localAppium");
         String hub = System.getProperty("hub");
+        String targetServer;
 
-        String targetServer = null;
         if (localAppium != null) {
             targetServer = localAppium + "/wd/hub";
         } else if (hub != null) {
@@ -89,8 +88,6 @@ public class DriverFactory_Ex {
         if (appiumDriver != null) {
             appiumDriver.quit();
             appiumDriver = null;
-
-            // stopAppiumServer(); // Note: When we have final infrastructure for parallel testing, this one is not necessary
         }
     }
 

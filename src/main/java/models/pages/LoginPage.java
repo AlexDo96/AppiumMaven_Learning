@@ -48,6 +48,14 @@ public class LoginPage extends GeneralPage{
         return this;
     }
 
+    public String checkUsernameField() {
+        return credsFormComponent.getUserNameField();
+    }
+
+    public String checkPasswordField() {
+        return credsFormComponent.getPasswordField();
+    }
+
     public LoginPage switchToSignUpTab() {
         appiumDriver.findElement(signUpTabSel).click();
         signUpFormComponent = new SignUpFormComponent(appiumDriver);

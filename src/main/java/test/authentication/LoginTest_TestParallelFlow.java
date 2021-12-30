@@ -19,10 +19,10 @@ public class LoginTest_TestParallelFlow extends BaseTest_Parallel {
         // Init driver
         AppiumDriver<MobileElement> appiumDriver = getDriver();
 
-        LoginFlow loginFlow = new LoginFlow(appiumDriver);
+        LoginFlow loginFlow = new LoginFlow(appiumDriver, loginCreds);
         loginFlow
                 .accessLoginForm()
-                .login(loginCreds)
+                .login()
                 .checkMissingEmailAndPassword();
     }
 
@@ -33,11 +33,11 @@ public class LoginTest_TestParallelFlow extends BaseTest_Parallel {
         // Init driver
         AppiumDriver<MobileElement> appiumDriver = getDriver();
 
-        LoginFlow loginFlow = new LoginFlow(appiumDriver);
+        LoginFlow loginFlow = new LoginFlow(appiumDriver, loginCreds);
         loginFlow
                 .accessLoginForm()
-                .login(loginCreds)
-                .checkMissingEmail();
+                .login()
+                .checkMissingEmailAndPassword();
     }
 
     @TmsLink("TS_5678")
@@ -47,11 +47,11 @@ public class LoginTest_TestParallelFlow extends BaseTest_Parallel {
         // Init driver
         AppiumDriver<MobileElement> appiumDriver = getDriver();
 
-        LoginFlow loginFlow = new LoginFlow(appiumDriver);
+        LoginFlow loginFlow = new LoginFlow(appiumDriver, loginCreds);
         loginFlow
                 .accessLoginForm()
-                .login(loginCreds)
-                .checkMissingPassword();
+                .login()
+                .checkMissingEmailAndPassword();
     }
 
     @TmsLink("TS_1234")
@@ -61,11 +61,11 @@ public class LoginTest_TestParallelFlow extends BaseTest_Parallel {
         // Init driver
         AppiumDriver<MobileElement> appiumDriver = getDriver();
 
-        LoginFlow loginFlow = new LoginFlow(appiumDriver);
+        LoginFlow loginFlow = new LoginFlow(appiumDriver, loginCreds);
         loginFlow
                 .accessLoginForm()
-                .login(loginCreds)
-                .verifyLoginSuccess()
+                .login()
+                .verifyLogin()
                 .clickOK();
     }
 
@@ -76,11 +76,11 @@ public class LoginTest_TestParallelFlow extends BaseTest_Parallel {
         // Init driver
         AppiumDriver<MobileElement> appiumDriver = getDriver();
 
-        LoginFlow loginFlow = new LoginFlow(appiumDriver);
+        LoginFlow loginFlow = new LoginFlow(appiumDriver, loginCreds);
         loginFlow
                 .accessLoginForm()
-                .login(loginCreds)
-                .verifyLoginFail();
+                .login()
+                .verifyLogin();
     }
 
     @DataProvider

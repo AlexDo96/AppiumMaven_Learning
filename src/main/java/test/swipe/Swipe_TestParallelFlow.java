@@ -5,7 +5,6 @@ import io.appium.java_client.MobileElement;
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 import test.BaseTest_Parallel;
-import test.BaseTest_SingleThread;
 import test_flows.swipe.SwipeFlow;
 
 public class Swipe_TestParallelFlow extends BaseTest_Parallel {

@@ -20,12 +20,12 @@ public class SignUpTest_TestParallelFlow extends BaseTest_Parallel {
         AppiumDriver<MobileElement> appiumDriver = getDriver();
 
         // Switch to Sign Up tab and register an account
-        SignupFlow signupFlow = new SignupFlow(appiumDriver);
+        SignupFlow signupFlow = new SignupFlow(appiumDriver, loginCreds);
         signupFlow
                 .accessLoginForm()
                 .switchToSignUpTab()
-                .signup(loginCreds)
-                .verifySignUpSuccess()
+                .signup()
+                .verifySignUp()
                 .clickOK();
     }
 
@@ -37,12 +37,12 @@ public class SignUpTest_TestParallelFlow extends BaseTest_Parallel {
         AppiumDriver<MobileElement> appiumDriver = getDriver();
 
         // Switch to Sign Up tab and register an account
-        SignupFlow signupFlow = new SignupFlow(appiumDriver);
+        SignupFlow signupFlow = new SignupFlow(appiumDriver, loginCreds);
         signupFlow
                 .accessLoginForm()
                 .switchToSignUpTab()
-                .signup(loginCreds)
-                .verifySignUpFail();
+                .signup()
+                .verifySignUp();
     }
 
     @DataProvider

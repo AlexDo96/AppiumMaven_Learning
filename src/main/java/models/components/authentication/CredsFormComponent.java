@@ -45,4 +45,12 @@ public class CredsFormComponent {
         appiumDriver.findElement(passwordSel).clear();
         return this;
     }
+
+    public String getUserNameField(){
+        return appiumDriver.findElement(usernameSel).getText();
+    }
+
+    public String getPasswordField(){
+        return appiumDriver.findElement(passwordSel).getText();
+    }
 }

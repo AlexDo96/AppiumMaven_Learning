@@ -47,13 +47,13 @@ public class SignUpTest_TestParallelFlow extends BaseTest_Parallel {
 
     @DataProvider
     public LoginCreds[] loginValidCredsData() {
-        String jsonLocationPath = "/src/main/resources/test-data/authentication/loginValidCreds.json";
+        String jsonLocationPath = "/test-data/authentication/loginValidCreds.json";
         return DataObjectBuilder.buildDataObject(jsonLocationPath, LoginCreds[].class);
     }
 
     @DataProvider
     public LoginCreds[] loginInvalidCredsData() {
-        String jsonLocationPath = "/src/main/resources/test-data/authentication/loginInvalidCreds.json";
+        String jsonLocationPath = "/test-data/authentication/loginInvalidCreds.json";
         return DataObjectBuilder.buildDataObject(jsonLocationPath, LoginCreds[].class);
     }
 }

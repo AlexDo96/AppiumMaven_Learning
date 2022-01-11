@@ -55,7 +55,7 @@ public class Main implements MobileCapabilityTypeEx {
         // Building the test suites
         TestNG testNG = new TestNG();
         XmlSuite suite = new XmlSuite();
-        suite.setName("Regression");
+        suite.setName("Parallel_DemoProject");
 
         // Put all classes into test group divided by device list
         List<XmlTest> allTests = new ArrayList<>();
